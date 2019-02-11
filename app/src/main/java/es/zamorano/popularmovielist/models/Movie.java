@@ -7,25 +7,9 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
-public class Movie implements Parcelable {
-    private static final String IMAGE_PATH = "http://image.tmdb.org/t/p/w500/";
+import io.realm.RealmObject;
 
-    @SerializedName("backdrop_path")
-    private String backdrop;
-
-    private String overview;
-
-    @SerializedName("poster_path")
-    private String poster;
-
-    private String title;
-
-    @SerializedName("vote_average")
-    private Float vote;
-
-    public Movie() {
-    }
-
+public class Movie extends RealmObject implements Parcelable {
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
         @Override
         public Movie createFromParcel(Parcel in) {
@@ -37,6 +21,28 @@ public class Movie implements Parcelable {
             return new Movie[size];
         }
     };
+    private static final String IMAGE_PATH = "http://image.tmdb.org/t/p/w500/";
+    private Integer id;
+    @SerializedName("backdrop_path")
+    private String backdrop;
+    private String overview;
+    @SerializedName("poster_path")
+    private String poster;
+    private String title;
+    @SerializedName("vote_average")
+    private Float vote;
+
+    public Movie() {
+    }
+
+    private Movie(Parcel in) {
+        this.id = in.readInt();
+        this.backdrop = in.readString();
+        this.overview = in.readString();
+        this.poster = in.readString();
+        this.title = in.readString();
+        this.vote = in.readFloat();
+    }
 
     @Override
     public int describeContents() {
@@ -45,6 +51,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(backdrop);
         dest.writeString(overview);
         dest.writeString(poster);
@@ -52,12 +59,12 @@ public class Movie implements Parcelable {
         dest.writeFloat(vote);
     }
 
-    private Movie(Parcel in) {
-        this.backdrop = in.readString();
-        this.overview = in.readString();
-        this.poster = in.readString();
-        this.title = in.readString();
-        this.vote = in.readFloat();
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 
     public String getBackdrop() {
@@ -92,12 +99,12 @@ public class Movie implements Parcelable {
         this.title = title;
     }
 
-    public void setVote(Float vote) {
-        this.vote = vote;
-    }
-
     public Float getVote() {
         return vote;
+    }
+
+    public void setVote(Float vote) {
+        this.vote = vote;
     }
 
     public static class MovieList {

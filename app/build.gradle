@@ -42,6 +42,11 @@ dependencies {
     //Gson for serialize data
     implementation 'com.google.code.gson:gson:2.8.2'
 
+    //Parceler for serialize data
+    implementation "org.parceler:parceler-api:1.1.12"
+    implementation 'com.android.support:design:27.1.1'
+
+
 }
 
 apply plugin: 'realm-android'
